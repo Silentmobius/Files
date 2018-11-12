@@ -1,0 +1,53 @@
+/*
+Chapter: Applets
+
+Programmer:   Jimmy Lim
+
+Date: 10/5/2018
+
+Filename:  jlim5_KilowattApplet
+
+Purpose: Applet
+
+*/
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class jlim5_KilowattApplet extends Applet implements ActionListener{
+
+
+    Label label1 = new Label("Welcome to the Appliance Energy Calculator");
+    Label label2 = new Label("Please enter the cost per kilowatt-hour: ");
+    Label label3 = new Label("Please enter the kilowatt-hours consumed:");
+    Label label4 = new Label("Click the Calculate button to display the monthly energy cost.");
+
+
+    TextField textField1 = new TextField(10);
+    TextField textField2 = new TextField(10);
+
+    Button button = new Button("Calculate");
+
+    @Override
+    public void init() {
+        add(label1);
+        add(label2);
+        add(textField1);
+        add(label3);
+        add(textField2);
+        add(button);
+        add(label4);
+        button.addActionListener(this);
+    }
+    public void actionPerformed(ActionEvent e) {
+        double cost = Double.parseDouble(textField1.getText());
+        double hours = Double.parseDouble(textField2.getText());
+        double answer = cost * hours;
+        Label label5 = new Label("The monthly cost to operate this appliance is: $" + answer);
+        label4.setText(label5.getText());
+    }
+    public void paint(Graphics g) {
+        setBackground(Color.yellow);
+    }
+}
