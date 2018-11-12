@@ -1,0 +1,46 @@
+/*
+ * Programmer: Jimmy Lim
+ * Date: 9/3/18
+ * Course: CSCI-1630-B01
+ * Lab 1B
+ * Description: Calculator of cost for materials and installation
+ */
+
+using static System.Console;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lab1B_jlim5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const double COST_PER_HOUR = 35.75;
+            const int RATE_OF_INSTALLATION = 40;
+            int length, width;
+            double labor, cost, area, totalMaterialsCost, hours, totalCost;
+            WriteLine("\t\t\tWelcome to Jimmy Lim's Flooring Cost Estimator!");
+            Write("Enter Length (whole numbers only): ");
+            length = int.Parse(ReadLine());
+            Write("Enter Width (whole numbers only): ");
+            width = int.Parse(ReadLine());
+            Write("Cost per square foot: ");
+            cost = double.Parse(ReadLine());
+            area = length * width;
+            totalMaterialsCost = cost * area;
+            hours = area / RATE_OF_INSTALLATION;
+            labor = COST_PER_HOUR * hours;
+            totalCost = labor + totalMaterialsCost;
+            WriteLine("==================================================");
+            WriteLine("For a total floor size of {0} the cost is: {1}", area, totalMaterialsCost.ToString("C2"));
+            WriteLine("It will take {0} hours to install the floor at the cost of {1}", hours, labor.ToString("C2"));
+            Write('\n');
+            WriteLine("Total cost: {0}", totalCost.ToString("C2"));
+            Write('\n');
+            Read();
+        }
+    }
+}
