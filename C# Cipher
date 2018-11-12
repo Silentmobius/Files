@@ -1,0 +1,239 @@
+/*
+ * Programmer: Jimmy Lim
+ * Class: CSCI-1630-B01
+ * Project: Lab6 and 7.
+ * Date: 10/26/2018
+ * Purpose: Demonstration of modularization
+ * 
+ */
+
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace jlim5_Lab6
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+
+        private void TranslateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] newAlphabet = { "A", "B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R"
+                 ,"S","T","U","V","W","X","Y","Z"};
+                string[,] newArray = new string[5, 5];
+                string cipher = cipherTextBox.Text;
+                string newCipher = RemoveDuplicateChars(cipher); //This method removes duplicate characters
+                char[] cipherArray = newCipher.ToCharArray();
+
+                //This adds the cipher to the new 2D array
+                newArray = AddCipher(newArray, cipherArray, cipher);
+
+                //This replaces the alphabet letters with letters found in the cipher with the word, "WOW"
+                newAlphabet = replaceAlphabetLetters(newAlphabet, cipherArray);
+                
+                //This creates a new array that only holds the alphabet less the cipher
+                string[] wowRemovedArray = new string[newAlphabet.Length - cipherArray.Length];
+                wowRemovedArray = removeUnwantedAlphabetLetters(wowRemovedArray, newAlphabet);
+
+                //This populates the rest of the 2D newArray.
+                newArray = populateTheRest(newArray, wowRemovedArray);
+
+                //Now newArray holds the letters of the cipher and the rest of the alphabet.
+
+                //This part is for the inputText field.
+                try
+                {
+                    //This part contains the list of indexes of the spaces within separate indexes
+                    string inputText = inputTextBox.Text;
+                    char[] inputTextArray = inputText.ToArray();
+                    List<int> indexOfSpaces = new List<int> { };
+                    indexOfSpaces = findSpaces(inputTextArray);
+
+                    //These lists hold the x and y coordinates
+                    List<int> xCoordinates = new List<int> { };
+                    List<int> yCoordinates = new List<int> { };
+
+                    //This part will sort and load the x and y coordinates in the order in which they are founded.
+                    for (int x = 0; x < inputTextArray.Length; ++x)
+                    {
+                        for (int y = 0; y < 5; ++y)
+                        {
+                            for (int z = 0; z < 5; ++z)
+                            {
+                                if (newArray[y, z] == inputTextArray[x].ToString())
+                                {
+                                    xCoordinates.Add(y);
+                                    yCoordinates.Add(z);
+                                }
+                            }
+                        }
+                    }
+
+                    //The rest of the code are methods with only a few lines and therefore do not need modularization.
+
+                    //This part transforms the newArray into a string.
+                    string output = "";
+                    for (int x = 0; x < xCoordinates.Count; ++x)
+                    {
+                        output += newArray[yCoordinates[x], xCoordinates[x]];
+                    }
+
+                    //The string is then moved to a List separated by indexes.
+                    List<string> outputList = new List<string> { };
+                    for (int x = 0; x < output.Length; ++x)
+                    {
+                        outputList.Add(output[x].ToString());
+                    }
+
+                    //Spaces are inserted into the List
+                    for (int x = 0; x < indexOfSpaces.Count; ++x)
+                    {
+                        outputList.Insert(indexOfSpaces[x], " ");
+                    }
+
+                    //The list is transformed into a final string for display.
+                    string finalOutput = "";
+                    for (int x = 0; x < outputList.Count; ++x)
+                    {
+                        finalOutput += outputList[x];
+                    }
+                    outputTextBox.Text = finalOutput;
+
+                }
+                catch
+                {
+                    int x = int.Parse(inputTextBox.Text);
+                    MessageBox.Show("Enter Letters Only", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    inputTextBox.Focus();
+                    inputTextBox.SelectAll();
+                }
+            }
+            catch
+            {
+                
+                MessageBox.Show("Enter Letters Only", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cipherTextBox.Focus();
+                cipherTextBox.SelectAll();
+
+            }
+        }
+        static string RemoveDuplicateChars(string key)
+        {
+            string result = "";
+
+            foreach (char value in key)
+            {
+                if (result.IndexOf(value) == -1)
+                {
+                    result += value;
+                }
+            }
+            return result;
+        }
+
+        static string[] replaceAlphabetLetters(string[] alphabet, char[] cipherArray)
+        {
+            for (int x = 0; x < alphabet.Length; ++x)
+            {
+                for (int y = 0; y < cipherArray.Length; ++y)
+                {
+                    if (alphabet[x] == cipherArray[y].ToString())
+                    {
+                        alphabet[x] = "WOW";
+                    }
+                }
+            }
+            return alphabet;
+        }
+
+        static string[,] AddCipher(string[,] newArray, char[] cipher, string length)
+        {
+            int w = 0;
+            for (int x = 0; x < 5; ++x)
+            {
+                for (int y = 0; y < 5; ++y, ++w)
+                {
+                    if (w == cipher.Length)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        newArray[x, y] = cipher[w].ToString();
+                    }
+                }
+            }
+            return newArray;
+        }
+
+        static string[] removeUnwantedAlphabetLetters(string[] wowAlphabet, string[] newAlphabet)
+        {
+            for (int x = 0, y = 0; x < newAlphabet.Length; ++x)
+            {
+                if (newAlphabet[x] != "WOW")
+                {
+                    wowAlphabet[y] = newAlphabet[x];
+                    ++y;
+                }
+            }
+            return wowAlphabet;
+        }
+
+        static string[,] populateTheRest(string[,] newArray, string[] removedLetters)
+        {
+            int i = 0;
+            for (int x = 0; x < 5; ++x)
+            {
+                for (int y = 0; y < 5; ++y)
+                {
+                    if (newArray[x, y] == null)
+                    {
+                        newArray[x, y] = removedLetters[i];
+                        i++;
+                    }
+
+                }
+            }
+            return newArray;
+        }
+        static List<int> findSpaces(char[] inputTextArray)
+        {
+            List<int> indexOfSpaces = new List<int> { };
+            for (int x = 0; x < inputTextArray.Length; ++x)
+            {
+                if (inputTextArray[x] == ' ')
+                {
+                    indexOfSpaces.Add(x);
+                }
+            }
+            return indexOfSpaces;
+        }
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            cipherTextBox.Clear();
+            inputTextBox.Clear();
+            outputTextBox.Clear();
+            
+        }
+    }
+}
