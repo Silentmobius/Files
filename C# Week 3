@@ -1,0 +1,128 @@
+/*
+Programmer: Jimmy Lim
+Class: CSCI-1630-B01
+Date: 9/12/2018
+Lab 2
+
+
+*/
+
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Console;
+using System;
+
+namespace Lab2_jlim5
+{
+    class Program
+    {
+        const double _10_TAX = 0.10;
+        const double _10_LIMITER = 9525;
+        const double _12_TAX = 0.12;
+        const double _12_LIMITER = 38700;
+        const double _22_TAX = 0.22;
+        const double _22_LIMITER = 82500;
+        const double _24_TAX = 0.24;
+        const double _24_LIMITER = 157500;
+        const double _32_TAX = 0.32;
+        const double _32_LIMITER = 200000;
+        const double _35_TAX = 0.35;
+        const double _35_LIMITER = 500000;
+        const double _37_TAX = 0.37;
+
+        public static object Close { get; private set; }
+
+        static void Main(string[] args)
+        {
+            double income, tax_rate, income_difference, tax_liability = 0;
+            String tax_bracket = "";
+            char repeat;
+
+
+
+            WriteLine("JIMMY LIM'S 2018 TAX CALCULATOR FOR SINGLES");
+             try
+             {
+                do
+                {
+                    Write("\nPlease enter your taxable income for 2018: ");
+                    income = Convert.ToDouble(ReadLine());
+                    if (income <= _10_LIMITER)
+                    {
+                        tax_rate = _10_TAX;
+                        income_difference = income;
+                        tax_liability = income * tax_rate;
+                        tax_bracket = _10_TAX.ToString("P0");
+                    }
+                    else if (income >= (_10_LIMITER + 1) && income <= _12_LIMITER)
+                    {
+                        tax_rate = _12_TAX;
+                        income_difference = income - _10_LIMITER;
+                        tax_liability = (_10_LIMITER * _10_TAX) + (income_difference * tax_rate);
+                        tax_bracket = _12_TAX.ToString("P0");
+                    }
+                    else if (income >= (_12_LIMITER + 1) && income <= _22_LIMITER)
+                    {
+                        tax_rate = _22_TAX;
+                        income_difference = income - _12_LIMITER;
+                        tax_liability = (_10_LIMITER * _10_TAX) + ((_12_LIMITER - _10_LIMITER) * _12_TAX) + income_difference * tax_rate;
+                        tax_bracket = _22_TAX.ToString("P0");
+                    }
+                    else if (income >= (_22_LIMITER + 1) && income <= _24_LIMITER)
+                    {
+                        tax_rate = _24_TAX;
+                        income_difference = income - _22_LIMITER;
+                        tax_liability = (_10_LIMITER * _10_TAX) + ((_12_LIMITER - _10_LIMITER) * _12_TAX) + ((_22_LIMITER - _12_LIMITER) * _22_TAX) + income_difference * tax_rate;
+                        tax_bracket = _24_TAX.ToString("P0");
+                    }
+                    else if (income >= (_24_LIMITER + 1) && income <= _32_LIMITER)
+                    {
+                        tax_rate = _32_TAX;
+                        income_difference = income - _24_LIMITER;
+                        tax_liability = (_10_LIMITER * _10_TAX) + ((_12_LIMITER - _10_LIMITER) * _12_TAX) + ((_22_LIMITER - _12_LIMITER) * _22_TAX) + ((_24_LIMITER - _22_LIMITER) * _24_TAX) + income_difference * tax_rate;
+                        tax_bracket = _32_TAX.ToString("P0");
+                    }
+                    else if (income >= (_32_LIMITER + 1) && income <= _35_LIMITER)
+                    {
+                        tax_rate = _35_TAX;
+                        income_difference = income - _32_LIMITER;
+                        tax_liability = (_10_LIMITER * _10_TAX) + ((_12_LIMITER - _10_LIMITER) * _12_TAX) + ((_22_LIMITER - _12_LIMITER) * _22_TAX) + ((_24_LIMITER - _22_LIMITER) * _24_TAX) + ((_32_LIMITER - _24_LIMITER) * _32_TAX) + income_difference * tax_rate;
+                        tax_bracket = _35_TAX.ToString("P0");
+                    }
+                    else if (income >= (_35_LIMITER + 1))
+                    {
+                        tax_rate = _37_TAX;
+                        income_difference = (income - _35_LIMITER);
+                        tax_liability = (_10_LIMITER * _10_TAX) + ((_12_LIMITER - _10_LIMITER) * _12_TAX) + ((_22_LIMITER - _12_LIMITER) * _22_TAX) + ((_24_LIMITER - _22_LIMITER) * _24_TAX) + ((_32_LIMITER - _24_LIMITER) * _32_TAX) + ((_35_LIMITER - _32_LIMITER) * _35_TAX) + income_difference * tax_rate;
+                        tax_bracket = _37_TAX.ToString("P0");
+                    }
+                    else
+                    {
+                        WriteLine("Cannot compute");
+                    }
+
+                    Write($"\nYour total Federal Tax liability for 2018: {tax_liability.ToString("C")}");
+                    Write($"\nYour final tax bracket is: {tax_bracket}");
+                    Write("\nYour effective tax rate is: {0}", (tax_liability / income).ToString("P"));
+                    Write("\nDo you wish to repeat the process? (Y or N)");
+                    repeat = System.Convert.ToChar(ReadLine());
+                    while (repeat != 'N' && repeat != 'n' && repeat != 'Y'  && repeat != 'y')
+                    {
+                        Write("\n\nDo you wish to repeat the process? (Y or N)");
+                        repeat = System.Convert.ToChar(ReadLine());
+                    }
+                } while (repeat == 'Y' || repeat == 'y');
+             } catch
+                {
+                    WriteLine("Invalid entry");
+                }
+             WriteLine("\nHave a nice day!");
+             ReadLine();
+
+        } 
+
+    }
+} 
