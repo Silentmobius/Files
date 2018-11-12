@@ -1,0 +1,172 @@
+/*
+ * Programmer: Jimmy Lim
+ * Class: CSCI-1630-B01
+ * Project: Lab4A
+ * Date: 10/05/18
+ * Purpose: Parallel Arrays
+ * 
+ */
+ 
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace jlim5_Lab4A
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        public void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        int limit = 26;
+        int y = 0;
+        int compValue = 0;
+        int playerValue = 0;
+        int compScore = 0;
+        int playerScore = 0;
+        private void drawButton_Click(object sender, EventArgs e)
+        {
+            limit--; // reduces - 1 each time button is clicked to end the game after 26 clicks.
+            string compFace = "", compSuits = "", playerFace = "", playerSuit = "";
+            Random rnt = new Random();
+            int[] cardValues = { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            string[] faces = { "jack", "queen", "king", "ace" };
+            string[] suits = { "clubs", "diamonds", "hearts", "spades" };
+            int compFacesRandom = rnt.Next(0, 13);
+            int playerFacesRandom = rnt.Next(0, 13);
+
+            // This portion determines the Computer's Face card
+            if (compFacesRandom < cardValues.Length)
+            {
+                compFace = cardValues[compFacesRandom].ToString();
+                compValue = compFacesRandom;
+            } else
+            {
+                switch (compFacesRandom)
+                {
+                    case (9):
+                        compFace = faces[0];
+                        compValue = compFacesRandom;
+                        break;
+                    case (10):
+                        compFace = faces[1];
+                        compValue = compFacesRandom;
+                        break;
+                    case (11):
+                        compFace = faces[2];
+                        compValue = compFacesRandom;
+                        break;
+                    case (12):
+                        compFace = faces[3];
+                        compValue = compFacesRandom;
+                        break;
+                }
+            }
+
+            //This portion determines the Player's Facecard
+            if (playerFacesRandom < cardValues.Length)
+            {
+                playerFace = cardValues[playerFacesRandom].ToString();
+                playerValue = playerFacesRandom;
+            }
+            else
+            {
+                switch (playerFacesRandom)
+                {
+                    case (9):
+                        playerFace = faces[0];
+                        playerValue = playerFacesRandom;
+                        break;
+                    case (10):
+                        playerFace = faces[1];
+                        playerValue = playerFacesRandom;
+                        break;
+                    case (11):
+                        playerFace = faces[2];
+                        playerValue = playerFacesRandom;
+                        break;
+                    case (12):
+                        playerFace = faces[3];
+                        playerValue = playerFacesRandom;
+                        break;
+                }
+            }
+
+            //This portion determines the Suit of both Computer and Player cards
+            int compSuitsRandom = rnt.Next(0, suits.Length);
+            int playerSuitsRandom = rnt.Next(0, suits.Length);
+                compSuits = suits[compSuitsRandom];
+                playerSuit = suits[playerSuitsRandom];
+
+
+            // Here is the output of the cards based on the arrays.
+            computerPictureBox.Image = Image.FromFile("../Pics/" + compFace + "_of_" + compSuits + ".png");
+            playerPictureBox.Image = Image.FromFile("../Pics/" + playerFace + "_of_" + playerSuit + ".png");
+
+
+            // This is where the score is calculated.
+            if (compValue > playerValue)
+            {
+                compScore++;
+            } else if (playerValue > compValue)
+            {
+                playerScore++;
+            }
+
+            //This portion ends the game.
+
+            if (limit == 0)
+            {
+                victoryLabel.Visible = true;
+                if (compScore > playerScore)
+                {
+                    victoryLabel.Text = "COMPUTER WINS";
+                } else if (playerScore > compScore)
+                {
+                    victoryLabel.Text = "PLAYER WINS";
+                } else
+                {
+                    victoryLabel.Text = "IT'S A DRAW!!!";
+                }
+                MessageBox.Show("The entire deck has been dealt \n Thanks for Playing", "Game Over");
+                drawButton.Enabled = false;
+            }
+
+            //Displays the scores.
+            computerWinsTextBox.Text = compScore.ToString();
+            playerWinsTextBox.Text = playerScore.ToString();
+
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void newGameButton_Click(object sender, EventArgs e)
+        {
+            computerWinsTextBox.Text = "";
+            playerWinsTextBox.Text = "";
+            compScore = 0;
+            playerScore = 0;
+            victoryLabel.Visible = false;
+            drawButton.Enabled = true;
+            computerPictureBox.Image = Image.FromFile("../Pics/card.jpg");
+            playerPictureBox.Image = Image.FromFile("../Pics/card.jpg");
+            limit = 26;
+        }
+    }
+}
