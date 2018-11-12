@@ -1,0 +1,24 @@
+/*
+Chapter: SWING
+
+Programmer:   Jimmy Lim
+
+Date: 10/5/2018
+
+Filename:  jlim5_KilowattApplet
+
+Purpose: SWING
+
+*/
+import javax.swing.JOptionPane;
+public class jlim5_Currency {
+    public static void main(String[] args) {
+        double answer = Double.parseDouble(JOptionPane.showInputDialog("Enter your dollar amount:"));
+        double pounds = answer * 0.64;
+        double euro = answer * .91;
+        double ruble = answer * 61.73;
+        JOptionPane.showMessageDialog(null, "YOUR DOLLAR AMOUNT OF " + answer
+                + " is equal to: \n" + euro + " euros, \n" + pounds + " pounds, and \n" + Math.round(ruble) + " rubles."
+                , "Currency Calculator", JOptionPane.PLAIN_MESSAGE);
+    }
+}
