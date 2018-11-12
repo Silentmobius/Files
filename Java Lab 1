@@ -1,0 +1,63 @@
+/*
+ * Chapter 1 & 2
+ * Programmer: Jimmy Lim
+ * Date: 9/6/18
+ * Filename: Lab1_jlim5
+ * Purpose: Basic arithmetics and a splash screen
+ */
+import java.util.Scanner;
+
+public class Arithemetics {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		char escape;
+		
+		int sum, subtraction, product, division, remainder;
+		double _sum, _subtraction, _multiplication, _division, _remainder;
+		
+		System.out.println("*******************************************");
+		System.out.println("*  this is my first Java program          *");
+		System.out.println("*******************************************");
+
+		System.out.println("\n**    Integer arithmetic tests   **" );
+		System.out.print("\nEnter the first integer to test:\t" );
+		int firstAnswer = input.nextInt();
+		System.out.print("Enter the second integer to test:\t");
+		int secondAnswer = input.nextInt();
+		
+		sum = firstAnswer + secondAnswer;
+		subtraction = firstAnswer - secondAnswer;
+		product = firstAnswer * secondAnswer;
+		division = firstAnswer / secondAnswer;
+		remainder = firstAnswer % secondAnswer;
+		
+		System.out.println(firstAnswer + " + " + secondAnswer + " = " + sum);
+		System.out.println(firstAnswer + " - " + secondAnswer + " = " + subtraction);
+		System.out.println(firstAnswer + " * " + secondAnswer + " = " + product);
+		System.out.println(firstAnswer + " / " + secondAnswer + " = " + division);
+		System.out.println(firstAnswer + " % " + secondAnswer + " = " + remainder);
+		
+		System.out.println("\n**\tReal arithmetic tests\t**\n");
+		System.out.print("Enter the first real to test:\t");
+		double firstRealAnswer = input.nextDouble();
+		System.out.print("Enter the second real to test:\t");
+		double secondRealAnswer = input.nextDouble();
+		
+		_sum = firstRealAnswer + secondRealAnswer;
+		_subtraction = firstRealAnswer - secondRealAnswer;
+		_multiplication = firstRealAnswer * secondRealAnswer;
+		_division = firstRealAnswer / secondRealAnswer;
+		_remainder = firstRealAnswer % secondRealAnswer;
+		
+		System.out.println(firstRealAnswer + " + " + secondRealAnswer + " = " + _sum);
+		System.out.println(firstRealAnswer + " - " + secondRealAnswer + " = " + _subtraction);
+		System.out.println(firstRealAnswer + " * " + secondRealAnswer + " = " + _multiplication);
+		System.out.println(firstRealAnswer + " / " + secondRealAnswer + " = " + _division);
+		System.out.println(firstRealAnswer + " % " + secondRealAnswer + " = " + _remainder);
+	
+		System.out.println("\nHave a nice day!");
+		input.nextLine();
+
+	}
+
+}
