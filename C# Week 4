@@ -1,0 +1,94 @@
+/*
+ * Programmer: Jimmy Lim
+ * Class: CSCI-1630-B01
+ * Project: Lab3
+ * Date: 9/18/18
+ * Purpose: GUI, Forms, Try/Catches, If/Else, Computations
+ * 
+ */
+
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace jlim5_Lab3
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void calculateButton_Click(object sender, EventArgs e)
+        {
+            if (purchasePriceTextBox.Text != "")
+            {
+                if (downPaymentTextBox.Text != "")
+                {
+                    if (interestTextBox.Text != "")
+                    {
+                        if (loanTermTextBox.Text != "")
+                        {
+                            try
+                            {
+                                double purchasePrice = Convert.ToDouble(purchasePriceTextBox.Text);
+                                double downPayment = Convert.ToDouble(downPaymentTextBox.Text);
+                                double interestRate = Convert.ToDouble(interestTextBox.Text);
+                                int loanTerm = Convert.ToInt32(loanTermTextBox.Text);
+                                double amountToFinance = purchasePrice - downPayment;
+
+                                //operations used to calculate the monthly payment
+                                double monthlyRate = interestRate / 12;
+                                double numerator = Math.Pow((1 + monthlyRate), loanTerm);
+                                double denominator = numerator - 1;
+                                double quotient = numerator / denominator;
+                                double monthlyPayment = monthlyRate * amountToFinance * quotient;
+
+                                // output results to their respective text boxes
+                                amountToFinanceTextBox.Text = amountToFinance.ToString("C2");
+                                monthlyPaymentTextBox.Text = monthlyPayment.ToString("C2");
+
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Enter integers only", "Invalid values");
+                            }
+                        } else
+                        {
+                            MessageBox.Show("Enter values", "Empty textboxes");
+                            loanTermTextBox.Focus();
+                        }
+                    } else
+                    {
+                        MessageBox.Show("Enter values", "Empty textboxes");
+                        interestTextBox.Focus();
+                    }
+                } else
+                {
+                    MessageBox.Show("Enter values", "Empty textboxes");
+                    downPaymentTextBox.Focus();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Enter values", "Empty textboxes");
+                purchasePriceTextBox.Focus();
+            }
+
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+    }
+}
